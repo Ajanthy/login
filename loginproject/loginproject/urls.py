@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 
+admin.site.site_header = "Feedback Analysis Admin"
+admin.site.site_title = " Admin"
+admin.site.index_title = "Welcome to Hotel feedback analysis"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('loginwithauth/',include('loginwithauth.urls'))
 ]
-admin.site.site_header = "Feedback Analysis Admin"
-admin.site.site_title = " Admin"
-admin.site.index_title = "Welcome to Hotel feedback analysis"
