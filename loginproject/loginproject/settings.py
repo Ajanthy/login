@@ -122,9 +122,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_URL = '/loginwithauth/'
 
 STATICFILES_DIRS= [
     os.path.join(BASE_DIR,'static')
 ]
+
+#TATICFILES_DIRS= [
+    #os.path.join(BASE_DIR,'loginwithauth')
+#]
 STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 LOGIN_REDIRECT_URL = '../dashboard/'
