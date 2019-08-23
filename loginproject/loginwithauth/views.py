@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from loginwithauth.forms import LoginForm
 from loginwithauth.models import admin
 from django.views.generic import TemplateView
+from django import forms
+from django.contrib.auth import authenticate, login
+
 # Create your views here.
 def indexView(request):
     return render(request,'index.html')
@@ -13,35 +16,68 @@ def dashboardView(request):
     return render(request,'dashboard.html')
 
 
+
+def login(request):
+        if request.method =='POST':
+
+
+                username = request.POST['username']
+                password = request.POST['password']
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                        login(request, user)
+                        # Redirect to a success page.
+                        ...
+                else:
+                        # Return an 'invalid login' error message.
+                        ...
+
+
+        
+        else:
+
+
+                return render(request,"registration/login.html")
+
+
 def register(request):
         if request.method =='POST':
-                form = LoginForm(request.POST)
-                if form.is_valid():
-                        print('user created')
+                form1 = LoginForm(request.POST)
+                if form1.is_valid():
 
-                        username = request.POST['username']
-                        email = request.POST['email']
-                        psw = request.POST['psw']
-                        psw_confirm = request.POST['psw_confirm']
 
-                        if(psw==psw_confirm):
+                        username = form1.cleaned_data['username']
+                        email = form1.cleaned_data['email']
+                        psw = form1.cleaned_data['password']
+                        psw_confirm = form1.cleaned_data['confirm_password']
 
-                        #if admin.objects.filter(username==username).exits():
 
-                                #print('user name taken')
-                                #return redirect('register/')
-                        #else:
+                        #if(psw==psw_confirm):
 
-                                User = admin(username=username,email=email,password=psw,)
-                                User.save()
-                                return redirect('register')
+                               # A = admin.objects.get(username)
+                                #if not (admin.objects.filter(username=username).exists()):
+
+                                        
+                        User = admin(username=username,email=email,password=psw,)
+                        User.save()
+                        return render(request,"registration/register.html",{'form': form1})
+
+                                        #return redirect('register/')
+                                
+                                #else:
+                                      # raise forms.ValidationError('Looks like a username with that email or password already exists')
+                                       #return render(request,"registration/register.html",{'form': form})
+                                       
+                        
+
                 
                 else:
-                        return redirect('register')
-                        print('Password not matching')
+                        return render(request,"registration/register.html",{'form': form1})
+
+                        #print('Password not matching')
         else:
-           form = LoginForm()
-           return render(request,"registration/register.html",{'form': form})
+           form1 = LoginForm()
+           return render(request,"registration/register.html",{'form': form1})
 
 
 

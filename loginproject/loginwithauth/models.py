@@ -1,5 +1,4 @@
 from django.db import models
-#from django.utils import timezone
 
 class admin(models.Model):
     id = models.AutoField(primary_key=True)
@@ -19,16 +18,16 @@ class user(models.Model):
     phoneNo = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-
+   
     class Meta:
             db_table = 'user'
-    
+
     def __str__(self):
         return self.nic
 
 class review(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.IntegerField()
+    user_id =  models.ForeignKey(user, on_delete=models.CASCADE)
     queAndAnsr = models.TextField()
     geo_tag = models.TextField()
     device_signature= models.TextField()
@@ -41,15 +40,12 @@ class review(models.Model):
     def __str__(self):
         return str(self.user_id)
     
-    # @property
-    # def days_since_creation(self):
-    #     diff = timezone.now() - self.date_created
-    #     return diff.days
+   
 
 
 class complaint(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.IntegerField()
+    user_id =  models.ForeignKey(user, on_delete=models.CASCADE)
     geo_tag = models.TextField()
     description= models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
@@ -61,7 +57,14 @@ class complaint(models.Model):
     def __str__(self):
         return str(self.user_id)
 
-    # @property
-    # def days_since_creation(self):
-    #     diff = timezone.now() - self.date_created
-    #     return diff.days
+class question(models.Model):
+        
+    id = models.AutoField(primary_key=True)
+    question = models.CharField(max_length = 4000)
+    expected_answer = models.CharField(max_length = 4000)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+   
+
+    class Meta:
+            db_table = 'question'

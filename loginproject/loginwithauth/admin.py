@@ -39,6 +39,3 @@ class ComplaintAdmin(admin.ModelAdmin):
     days_since_creation.short_description = 'Days Active'
 admin.site.register(complaint,ComplaintAdmin)
 
-
-
-
